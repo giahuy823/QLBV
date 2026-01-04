@@ -1,0 +1,27 @@
+﻿@page
+@model QLBV.Pages.BoPhanQuanLy.XemThuTucModel
+@{
+    ViewData["Title"] = "Danh sách thủ tục";
+}
+
+<h2 class="text-xl font-semibold mb-4">Danh sách thủ tục</h2>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th class="px-4 py-2 text-left">Mã thủ tục</th>
+            <th class="px-4 py-2 text-left">Tên thủ tục</th>
+            <th class="px-4 py-2 text-left">Đơn giá (VNĐ)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tt in Model.thuTucs)
+        {
+            <tr class="border-t hover:bg-gray-50">
+                <td class="px-4 py-2">@tt.MaThuTuc</td>
+                <td class="px-4 py-2">@tt.TenTuc</td>
+                <td class="px-4 py-2">@((tt.DonGia ?? 0).ToString("N0"))</td>
+            </tr>
+        }
+    </tbody>
+</table>

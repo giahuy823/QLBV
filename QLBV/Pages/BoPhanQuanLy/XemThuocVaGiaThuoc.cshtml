@@ -1,0 +1,51 @@
+﻿@page
+@model QLBV.Pages.BoPhanQuanLy.XemThuocVaGiaThuocModel
+@{
+    ViewData["Title"] = "Danh sách thuốc và giá gần nhất";
+}
+
+<h2 class="text-xl font-semibold mb-4">Danh sách thuốc và giá gần nhất</h2>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th class="px-4 py-2 text-left">Mã thuốc</th>
+            <th class="px-4 py-2 text-left">Tên thuốc</th>
+            <th class="px-4 py-2 text-left">Đơn vị</th>
+            <th class="px-4 py-2 text-left">Giá bán gần nhất</th>
+            <th class="px-4 py-2 text-left">Ngày áp dụng</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var thuoc in Model.DanhSachThuoc)
+        {
+            <tr class="border-t border-gray-300 hover:bg-gray-100">
+                <td class="px-4 py-2">@thuoc.MaThuoc</td>
+                <td class="px-4 py-2">@thuoc.TenThuoc</td>
+                <td class="px-4 py-2">@thuoc.DonVi</td>
+                <td class="px-4 py-2">
+                    @if (thuoc.GiaGanNhat != null)
+                    {
+                        @thuoc.GiaGanNhat.Gia.ToString("N0")
+                        
+                    }
+                    else
+                    {
+                        <span class="text-gray-500 italic">Chưa có</span>
+                    }
+                </td>
+                <td class="px-4 py-2">
+                    @if (thuoc.GiaGanNhat != null)
+                    {
+                        @thuoc.GiaGanNhat.NgayApDung.ToString("dd/MM/yyyy")
+                    }
+                    else
+                    {
+                        <span class="text-gray-500 italic">Chưa có</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

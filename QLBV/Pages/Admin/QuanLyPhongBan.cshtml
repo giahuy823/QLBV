@@ -1,0 +1,48 @@
+﻿@page
+@model QLBV.Pages.Admin.QuanLyPhongBanModel
+@{
+    ViewData["Title"] = "Quản lý phòng ban";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách phòng ban</h2>
+
+    <div class="mb-3">
+        <a asp-page="/Admin/ThemOrSuaPhongBan" class="btn btn-success">
+            <i class="fas fa-plus"></i> Thêm mới
+        </a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã PB</th>
+                <th>Tên phòng ban</th>
+                <th>Mô tả</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pb in Model.DanhSachCacPhongBan)
+            {
+                <tr>
+                    <td>@pb.MaPb</td>
+                    <td>@pb.TenPhongBan</td>
+                    <td>@pb.MoTa</td>
+                    <td>
+                       <a asp-page="/Admin/ThemOrSuaPhongBan" asp-route-id="@pb.MaPb" class="btn btn-sm btn-primary me-2">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                        <form method="post" asp-page-handler="Xoa" asp-route-id="@pb.MaPb" class="d-inline"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xoá phòng ban này?');">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

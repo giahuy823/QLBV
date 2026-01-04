@@ -1,0 +1,94 @@
+﻿@page "{maPk}"
+@model QLBV.Pages.BacSi.ThemToaThuocModel
+@{
+    ViewData["Title"] = "Thêm toa thuốc";
+}
+
+@{
+    ViewData["Title"] = "Thêm toa thuốc";
+}
+
+@if (Model.PhieuKham.ToaThuoc != null)
+{
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i> Phiếu khám này đã có toa thuốc. 
+        <a asp-page="./PhieuKham" asp-route-id="@Model.PhieuKham.MaPk" class="alert-link">
+            Xem chi tiết phiếu khám
+        </a>
+    </div>
+}
+else
+{
+    <h2>Thêm toa thuốc cho phiếu khám: @Model.PhieuKham.MaPk</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="PhieuKham.MaPk" />
+
+    <div class="form-group">
+        <label asp-for="PhieuKham.TrieuChung"></label>
+        <textarea asp-for="PhieuKham.TrieuChung" class="form-control"></textarea>
+    </div>
+
+    <h4>Danh sách thuốc kê</h4>
+    <table class="table table-bordered" id="thuocTable">
+        <thead>
+            <tr>
+                <th>Thuốc</th>
+                <th>Số lượng</th>
+                <th>Liều dùng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ThuocDuocKe.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <select asp-for="ThuocDuocKe[@i].MaThuoc" class="form-control" asp-items="Model.ThuocList"></select>
+                    </td>
+                    <td>
+                        <input asp-for="ThuocDuocKe[@i].SoLuong" class="form-control" />
+                    </td>
+                        <input asp-for="ThuocDuocKe[@i].LieuDung" class="form-control" />
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-secondary" onclick="addThuoc()">+ Thêm thuốc</button>
+    <br /><br />
+    <button type="submit" class="btn btn-primary">Lưu toa thuốc</button>
+</form>
+}
+@section Scripts {
+    <script>
+        var index = @Model.ThuocDuocKe.Count;
+
+        function addThuoc() {
+            var row = `
+                <tr>
+                    <td>
+                        <select name="ThuocDuocKe[${index}].MaThuoc" class="form-control">
+                            <option value="">--Chọn thuốc--</option>
+        @foreach (var thuoc in Model.ThuocList)
+        {
+                                    <option value="@thuoc.Value">@thuoc.Text</option>
+        }
+                        </select>
+                    </td>
+                    <td><input name="ThuocDuocKe[${index}].SoLuong" class="form-control" /></td>
+                    <td><input name="ThuocDuocKe[${index}].LieuDung" class="form-control" /></td>
+                    <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">X</button></td>
+                </tr>`;
+            document.querySelector("#thuocTable tbody").insertAdjacentHTML('beforeend', row);
+            index++;
+        }
+
+        function removeRow(btn) {
+            btn.closest("tr").remove();
+        }
+    </script>
+}

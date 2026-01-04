@@ -1,0 +1,59 @@
+﻿@page
+@model QLBV.Pages.TaiVu.PhieuKhamThuTucModel
+@{
+    ViewData["Title"] = "Chi tiết thủ tục trong phiếu khám";
+}
+
+<h2>Chi tiết thủ tục - Phiếu khám: @Model.MaPhieuKham</h2>
+
+@if (!Model.DanhSachChiTiet.Any())
+{
+    <div class="alert alert-info">Không có thủ tục nào trong phiếu khám này.</div>
+}
+else
+{
+  
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã thủ tục</th>
+                    <th>Tên thủ tục</th>
+                    <th>Đơn giá</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DanhSachChiTiet)
+                {
+                    <tr>
+                        <td>@item.MaTt</td>
+                        <td>@item.MaTtNavigation?.TenTuc</td>
+                        <td>@item.MaTtNavigation?.DonGia VNĐ</td>
+                        <td>
+                            @if (item.TtthanhToan == "Đã thanh toán")
+                            {
+                                <span class="text-success">Đã thanh toán</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Chưa thanh toán</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.TtthanhToan != "Đã thanh toán")
+                            {
+                                <form method="post" asp-page-handler="ThanhToan">
+                                    <input type="hidden" name="maPk" value="@item.MaPk" />
+                                    <input type="hidden" name="maTt" value="@item.MaTt" />
+                                    <button type="submit" class="btn btn-sm btn-primary">Thanh toán</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    
+}
+<a asp-page="/TaiVu/ChiTietPhieuKham" class="btn btn-secondary">Quay lại</a>

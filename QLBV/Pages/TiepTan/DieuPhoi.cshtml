@@ -1,0 +1,126 @@
+﻿@page
+@model QLBV.Pages.TiepTan.DieuPhoiModel
+@{
+    ViewData["Title"] = "Điều Phối Bệnh Nhân";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success">@Model.SuccessMessage</div>
+    }
+    @if (!ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input name="id" class="form-control" placeholder="Nhập mã bệnh nhân..." value="" autocomplete="off" />
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+        </div>
+    </form>
+
+
+    @if (Model.BenhNhan != null && !string.IsNullOrEmpty(Model.BenhNhan.MaBn))
+    {
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Thông tin bệnh nhân</h5>
+            </div>
+            <div class="card-body">
+                <div class="row gy-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Mã bệnh nhân</label>
+                        <input value="@Model.BenhNhan.MaBn" class="form-control-plaintext" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Họ tên</label>
+                        <input value="@Model.BenhNhan.HoTenBn" class="form-control-plaintext" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ngày sinh</label>
+                        <input value="@Model.BenhNhan.NgaySinh?.ToString("dd/MM/yyyy")" class="form-control-plaintext" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Số điện thoại</label>
+                        <input value="@Model.BenhNhan.Sdt" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Tạo phiếu khám mới</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-page-handler="TaoPhieuKham">
+                    <input type="hidden" asp-for="BenhNhan.MaBn" />
+
+                    <div class="mb-3">
+                        <label asp-for="PhieuKhamMoi.NguoiKham" class="form-label">Người khám</label>
+                        <input asp-for="PhieuKhamMoi.NguoiKham" class="form-control-plaintext" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PhieuKhamMoi.NgayKham" class="form-label">Ngày khám</label>
+                        <input asp-for="PhieuKhamMoi.NgayKham" class="form-control-plaintext" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PhieuKhamMoi.Bacsi" class="form-label">Bác sĩ</label>
+                        <select asp-for="PhieuKhamMoi.Bacsi" asp-items="Model.Dsbs" class="form-select">
+                            <option value="">-- Chọn bác sĩ --</option>
+                        </select>
+                        <span asp-validation-for="PhieuKhamMoi.Bacsi" class="text-danger"></span>
+                    </div>
+
+                     <div class="mb-3"> 
+                     <label asp-for="PhieuKhamMoi.TrieuChung" class="form-label">Triệu chứng</label> 
+                     <textarea asp-for="PhieuKhamMoi.TrieuChung" class="form-control" rows="3"></textarea>
+                     <span asp-validation-for="PhieuKhamMoi.TrieuChung" class="text-danger"></span> 
+                     </div> 
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-file-medical me-1"></i> Xác nhận
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(Model.Id))
+    {
+        <div class="alert alert-warning">
+            Không tìm thấy bệnh nhân với mã "@Model.Id"
+        </div>
+    }
+    <form method="get" asp-page="/TiepTan/PhieuKham" class="mb-4">
+        <div class="input-group">
+            <input name="id" class="form-control" placeholder="Nhập mã bệnh nhân..." value="@Model.Id" autocomplete="off" />
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Xem phiếu khám
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

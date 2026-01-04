@@ -1,0 +1,70 @@
+﻿@page "{id?}"
+@model QLBV.Pages.TiepTan.ChiTietPhieuKhamModel
+@{
+    ViewData["Title"] = "Chi tiết phiếu khám";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+@if (Model.PhieuKham != null)
+{
+    <div class="mb-4">
+        <strong>Mã phiếu:</strong> @Model.PhieuKham.MaPk <br />
+        <strong>Ngày khám:</strong> @Model.PhieuKham.NgayKham <br />
+        <strong>Bệnh nhân:</strong> @Model.PhieuKham.NguoiKhamNavigation?.HoTenBn <br />
+        <strong>Bác sĩ:</strong> @Model.PhieuKham.BacsiNavigation?.MaBs <br />
+        <strong>Triệu chứng:</strong> @Model.PhieuKham.TrieuChung
+    </div>
+
+    <hr />
+
+    @if (Model.ChiTietList != null && Model.ChiTietList.Any())
+    {
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã thủ tục</th>
+                    <th>Tên thủ tục</th>
+                    <th>Số tiền</th>
+                    <th>Thanh toán</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ChiTietList)
+                {
+                    <tr>
+                        <td>@item.MaTt</td>
+                        <td>@item.MaTtNavigation?.TenTuc</td>
+                        <td>@(item.SoTien?.ToString("N0")) đ</td>
+                        <td>
+                            @if (item.TtthanhToan == "Đã thanh toán")
+                            {
+                                <span class="text-success fw-semibold">
+                                    <i class="fas fa-check-circle me-1"></i>Đã thanh toán
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-danger fw-semibold">
+                                    <i class="fas fa-times-circle me-1"></i>Chưa thanh toán
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Không có chi tiết thủ tục nào cho phiếu khám này.
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-warning">
+        Không tìm thấy thông tin phiếu khám.
+    </div>
+}

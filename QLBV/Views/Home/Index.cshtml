@@ -1,0 +1,333 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --light-color: #ecf0f1;
+        --dark-color: #2c3e50;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        scroll-behavior: smooth;
+    }
+
+    .hero-section {
+        background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('/images/hospital-hero.jpg') center/cover no-repeat;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+    }
+
+    .section-title {
+        position: relative;
+        margin-bottom: 50px;
+        color: var(--primary-color);
+    }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-header {
+        background-color: var(--secondary-color);
+        color: white;
+        font-weight: bold;
+    }
+
+    .doctor-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .procedure-card {
+        border-left: 4px solid var(--secondary-color);
+    }
+
+    .nav-buttons {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--secondary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+    .room-section {
+        background-color: #f8f9fa;
+        border-left: 5px solid var(--secondary-color);
+        padding: 30px;
+        margin-bottom: 30px;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+    .btn-outline-primary {
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+        .btn-outline-primary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+</style>
+
+@if (signInManager.IsSignedIn(User))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Chào mừng trở lại, @User.Identity.Name !</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="nav-buttons">
+    <a href="#doctors" class="nav-btn" title="Bác sĩ"><i class="fas fa-user-md"></i></a>
+    <a href="#departments" class="nav-btn" title="Khoa phòng"><i class="fas fa-building"></i></a>
+    <a href="#procedures" class="nav-btn" title="Thủ tục"><i class="fas fa-procedures"></i></a>
+</div>
+
+<!-- Doctor Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 mb-4"><i class="fas fa-hospital-alt mr-3"></i>Welcome to TheBoys</h1>
+        <p class="lead mb-5">@Model.Introduction</p>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="text-center p-4 bg-white rounded text-dark">
+                    <i class="fas fa-ambulance feature-icon"></i>
+                    <h4>Chăm sóc khẩn cấp</h4>
+                    <p>Dịch vụ 24/7</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="text-center p-4 bg-white rounded text-dark">
+                    <i class="fas fa-user-md feature-icon"></i>
+                    <h4>Bác sĩ chuyên môn</h4>
+                    <p>Đội ngũ giàu kinh nghiệm</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="text-center p-4 bg-white rounded text-dark">
+                    <i class="fas fa-heartbeat feature-icon"></i>
+                    <h4>Chăm sóc chất lượng</h4>
+                    <p>Lấy bệnh nhân làm trung tâm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Doctors Section -->
+<section id="doctors" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center section-title"><i class="fas fa-user-md mr-2"></i> Đội ngũ bác sĩ </h2>
+        <div class="row">
+            @foreach (var doctor in Model.Doctors)
+            {
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card doctor-card">
+                        <img src="../img/default.jpg" class="card-img-top" alt="Doctor" style="object-fit: cover; width: 100%; height: 200px;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@doctor.MaBsNavigation.HoTenNv</h5>
+                            <p class="text-muted"><i class="fas fa-graduation-cap"></i> @doctor.TrinhDo</p>
+                            <div class="d-flex justify-content-center">
+                                
+                                <a asp-page="/NhanVien/ThongTin" asp-route-id="@doctor.MaBs" class="btn btn-outline-primary btn-sm"><i class="fas fa-info-circle"></i> Thông tin</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Departments Section -->
+<section id="departments" class="py-5">
+    <div class="container">
+        <h2 class="text-center section-title"><i class="fas fa-building mr-2"></i> Các khoa</h2>
+        <div class="row">
+            @foreach (var department in Model.Departments)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <i class="fas fa-clinic-medical mr-2"></i>
+                            <h5 class="mb-0">@department.TenBoPhan</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var room in department.PhongBans)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="#@room.MaPb" class="text-dark text-decoration-none">
+                                            <i class="fas fa-door-open mr-2"></i> @room.TenPhongBan
+                                        </a>
+                                        <span class="badge badge-primary badge-pill">@room.MaPb</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Procedures Section -->
+<section id="procedures" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center section-title"><i class="fas fa-procedures mr-2"></i> Các thủ tục y tế</h2>
+        <div class="row">
+            @foreach (var procedure in Model.Procedures)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card procedure-card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary text-white rounded-circle p-3 mr-3">
+                                    <i class="fas fa-heartbeat fa-lg"></i>
+                                </div>
+                                <h5 class="card-title mb-0">_@procedure.TenTuc</h5>
+                            </div>
+                          
+                            @* <a href="@Url.Action("Procedures", "Services")" class="btn btn-outline-primary"> *@
+                            @*     <i class="fas fa-arrow-right mr-2"></i>Tìm hiểu thêm *@
+                            @* </a> *@
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Room Sections -->
+<div class="container py-5">
+    @foreach (var department in Model.Departments)
+    {
+        foreach (var room in department.PhongBans)
+        {
+            <section id="@room.MaPb" class="room-section">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3><i class="fas fa-door-open text-primary mr-2"></i> @room.TenPhongBan</h3>
+                        @if (room.MoTa == null)
+                        {
+                            <p class="text-muted"><i class="fas fa-info-circle mr-2"></i>Đang cập nhật mô tả...</p>
+                        }
+                        else
+                        {
+                            <p>@room.MoTa</p>
+                        }
+                        <a href="#departments" class="btn btn-primary">
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại khoa
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <i class="fas fa-hospital text-primary" style="font-size: 100px; opacity: 0.2;"></i>
+                    </div>
+                </div>
+            </section>
+        }
+    }
+</div>
+
+
+@section Scripts {
+    <script>
+     
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navButtons = document.querySelectorAll('.nav-btn');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 300)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('href') === `#${current}`) {
+                    btn.classList.add('active');
+                    btn.style.backgroundColor = '#e74c3c';
+                } else {
+                    btn.style.backgroundColor = '#3498db';
+                }
+            });
+        });
+    </script>
+}

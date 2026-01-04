@@ -1,0 +1,55 @@
+﻿@page
+@model QLBV.Pages.Admin.QuanLyNhanVienModel
+@{
+    ViewData["Title"] = "Quản lý nhân viên";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách nhân viên</h2>
+
+    @* <div class="mb-3"> *@
+    @*     <a asp-page="/Admin/ThemNhanVien" class="btn btn-success"> *@
+    @*         <i class="fas fa-plus"></i> Thêm mới *@
+    @*     </a> *@
+    @* </div> *@
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã NV</th>
+                <th>Họ tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Phòng ban</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var nv in Model.NhanViens)
+            {
+                    <tr>
+                        <td>@nv.MaNv</td>
+                        <td>@nv.HoTenNv</td>
+                        <td>@nv.NgaySinh?.ToString("dd/MM/yyyy")</td>
+                        <td>@nv.GioiTinh</td>
+                        <td>@nv.MaPbNavigation?.TenPhongBan</td>
+                        <td>
+                            <a asp-page="/Admin/SuaNhanVien" asp-route-id="@nv.MaNv" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+        <script>
+            function confirmDelete(maNV) {
+                if (confirm(`Xác nhận xóa nhân viên ${maNV}?`)) {
+                    window.location.href = `?handler=Delete&id=${maNV}`;
+                }
+            }
+        </script>
+}

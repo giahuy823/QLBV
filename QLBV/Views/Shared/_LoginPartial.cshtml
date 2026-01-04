@@ -1,0 +1,119 @@
+﻿@if (signInManager.IsSignedIn(User))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-2"></i>
+            <span>@User.Identity.Name</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" asp-page="/NhanVien/ThongTin"><i class="fas fa-user me-2"></i>Profile</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            @if (User.IsInRole("BoPhanQuanLy"))
+            {
+                @* Nhóm Quản lý nhân sự *@
+                @if (User.IsInRole("Admin") || User.IsInRole("QuanLyNhanSu"))
+                {
+                    <li><a class="dropdown-item" asp-page="/Admin/QuanLyNhanVien"><i class="fas fa-user-tie me-2"></i>Quản lý nhân viên</a></li>
+                    <li><a class="dropdown-item" asp-page="/Admin/QuanLyPhongBan"><i class="fas fa-sitemap me-2"></i>Quản lý phòng ban</a></li>
+                    <li><a class="dropdown-item" asp-page="/Admin/QuanLyCaTruc"><i class="fas fa-calendar-check me-2"></i>Phân công lịch trực</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemLuong"><i class="fas fa-money-check-alt me-2"></i>Lương</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemThuocVaGiaThuoc"><i class="fas fa-pills me-2"></i>Thuốc và giá thuốc</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemThuTuc"><i class="fas fa-capsules me-2"></i>Dịch vụ y tế</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                }
+
+                @* Nhóm Quản lý tài vụ *@
+                @if (User.IsInRole("QuanLyTaiVu"))
+                {
+                    <li><a class="dropdown-item" asp-page="/QuanLyTaiVu/XemThuocVaGiaThuoc"><i class="fas fa-coins me-2"></i>Xem thuốc</a></li>
+                    <li><a class="dropdown-item" asp-page="/QuanLyTaiVu/ThuTuc"><i class="fas fa-coins me-2"></i>Xem dịch vụ y tế</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemCaTruc"><i class="fas fa-clock me-2"></i>Ca trực</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemLuong"><i class="fas fa-money-bill-wave me-2"></i>Lương</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemPhongBan"><i class="fas fa-building me-2"></i>Phòng ban</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                }
+
+                @* Nhóm Quản lý chuyên môn *@
+                @if (User.IsInRole("QuanLyChuyenMon"))
+                {
+                    <li><a class="dropdown-item" asp-page="/ChuyenMon/DanhSachPhieuKham"><i class="fas fa-notes-medical me-2"></i>Theo dõi điều trị</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemCaTruc"><i class="fas fa-user-clock me-2"></i>Ca trực</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemLuong"><i class="fas fa-file-invoice me-2"></i>Lương</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemPhongBan"><i class="fas fa-network-wired me-2"></i>Phòng ban</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemThuocVaGiaThuoc"><i class="fas fa-capsules me-2"></i>Thuốc và giá thuốc</a></li>
+                    <li><a class="dropdown-item" asp-page="/BoPhanQuanLy/XemThuTuc"><i class="fas fa-capsules me-2"></i>Dịch vụ y tế</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                }
+            }
+
+            @* Tiếp tân *@
+            @if (User.IsInRole("TiepTan"))
+            {
+                <li><a class="dropdown-item" asp-page="/TiepTan/TiepNhan"><i class="fas fa-user-plus me-2"></i>Tiếp nhận bệnh nhân</a></li>
+                <li><a class="dropdown-item" asp-page="/TiepTan/DieuPhoi"><i class="fas fa-random me-2"></i>Điều phối phòng khám</a></li>
+                <li><hr class="dropdown-divider" /></li>
+            }
+
+            @* Bác sĩ *@
+            @if (User.IsInRole("BacSi"))
+            {
+                <li><a class="dropdown-item" asp-page="/BacSi/DanhSachPhieuKham"><i class="fas fa-users me-2"></i>Bệnh nhân của tôi</a></li>
+            
+                <li><hr class="dropdown-divider" /></li>
+            }
+
+            @* Phòng tài vụ *@
+            @if (User.IsInRole("TaiVu"))
+            {
+                <li><a class="dropdown-item" asp-page="/TaiVu/ChiTietPhieuKham"><i class="fas fa-cash-register me-2"></i>Thu phí dịch vụ</a></li>
+                <li><hr class="dropdown-divider" /></li>
+            }
+
+            @* Kế toán *@
+            @if (User.IsInRole("KeToan"))
+            {
+                <li><a class="dropdown-item" asp-page="/KeToan/ThemLuong"><i class="fas fa-money-check-alt me-2"></i>Tính lương nhân viên</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" asp-page="/KeToan/Index"><i class="fas fa-money-check-alt me-2"></i>Lương tháng này</a></li>
+                <li><hr class="dropdown-divider" /></li>
+            }
+
+            @* Bán thuốc *@
+            @if (User.IsInRole("BanThuoc"))
+            {
+                <li><a class="dropdown-item" asp-page="/BanThuoc/CapPhatThuoc"><i class="fas fa-pills me-2"></i>Bán thuốc</a></li>
+                <li><hr class="dropdown-divider" /></li>
+            }
+
+            @* Nhân viên chung *@
+            @if (User.IsInRole("NhanVien"))
+            {
+                <li><a class="dropdown-item" asp-page="/NhanVien/Profile"><i class="fas fa-id-badge me-2"></i>Thông tin cá nhân</a></li>
+                <li><hr class="dropdown-divider" /></li>
+            }
+
+            @* Đăng xuất *@
+            <li>
+                <form asp-controller="TaiKhoan" asp-action="Logout" method="post">
+                    <button type="submit" class="dropdown-item text-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="TaiKhoan" asp-action="Login">
+            <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="TaiKhoan" asp-action="Register">
+            <i class="fas fa-user-plus me-2"></i>Đăng ký
+        </a>
+    </li>
+}

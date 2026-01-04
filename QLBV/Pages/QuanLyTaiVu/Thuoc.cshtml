@@ -1,0 +1,60 @@
+﻿@page "{maThuoc}"
+@model QLBV.Pages.QuanLyTaiVu.ThuocModel
+@{
+    ViewData["Title"] = "Chỉnh sửa thuốc";
+}
+
+<h2>Chỉnh sửa thông tin thuốc</h2>
+
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Thuoc.MaThuoc" />
+
+    <div class="mb-3">
+        <label asp-for="Thuoc.TenThuoc" class="form-label"></label>
+        <input asp-for="Thuoc.TenThuoc" class="form-control" />
+        <span asp-validation-for="Thuoc.TenThuoc" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Thuoc.DonVi" class="form-label"></label>
+        <input asp-for="Thuoc.DonVi" class="form-control" />
+        <span asp-validation-for="Thuoc.DonVi" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Thuoc.GiaGanNhat.Gia" class="form-label">Giá gần nhất (VNĐ)</label>
+        <input asp-for="Thuoc.GiaGanNhat.Gia" class="form-control" type="number" step="1000" />
+        <span asp-validation-for="Thuoc.GiaGanNhat.Gia" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Thuoc.GiaGanNhat.NgayApDung" class="form-label">Ngày áp dụng</label>
+        <input asp-for="Thuoc.GiaGanNhat.NgayApDung" class="form-control" type="date" />
+        <span asp-validation-for="Thuoc.GiaGanNhat.NgayApDung" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    <a asp-page="XemThuocVaGiaThuoc" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

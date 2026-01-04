@@ -1,0 +1,47 @@
+﻿@page "{id?}"
+@model QLBV.Pages.TiepTan.PhieuKhamModel
+@{
+    ViewData["Title"] = "Danh sách phiếu khám";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    @if (Model.PhieuKhamBenh != null && Model.PhieuKhamBenh.Any())
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã phiếu</th>
+                    <th>Ngày khám</th>
+                    <th>Bệnh nhân</th>
+                    <th>Triệu chứng</th>
+                    <th>Bác sĩ</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var phieu in Model.PhieuKhamBenh)
+                {
+                    <tr>
+                        <td>@phieu.MaPk</td>
+                        <td>@phieu.NgayKham</td>
+                        <td>@phieu.NguoiKham</td>
+                        <td>@phieu.TrieuChung</td>
+                        <td>@phieu.NguoiKhamNavigation?.HoTenBn</td>
+                       <td>   
+                           <a asp-page="/TiepTan/ChiTietPhieuKham" asp-route-id="@phieu.MaPk" 
+                               class="btn btn-success btn-sm">
+                               <i class="fas fa-eye"></i> Chi tiết 
+                            </a>
+                       </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning">Không có phiếu khám nào được tìm thấy.</div>
+    }
+</div>

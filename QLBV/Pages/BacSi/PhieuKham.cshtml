@@ -1,0 +1,221 @@
+﻿@page
+@model QLBV.Pages.BacSi.PhieuKhamModel
+@{
+}
+
+@{
+    ViewData["Title"] = "Chi tiết phiếu khám bệnh";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>@ViewData["Title"]</h2>
+        <div>
+            <a asp-page="./Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <!-- Thông tin chung -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-primary text-white">
+            <h6 class="m-0 font-weight-bold">Thông tin chung</h6>
+            <span class="badge badge-light">
+                @Model.PhieuKhamBenh.NgayKham
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-bold">Mã phiếu khám:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Model.PhieuKhamBenh.MaPk</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-bold">Bệnh nhân:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Model.PhieuKhamBenh.NguoiKhamNavigation.HoTenBn</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-bold">Ngày sinh:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Model.PhieuKhamBenh.NguoiKhamNavigation.NgaySinh</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-bold">SĐT:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Model.PhieuKhamBenh.NguoiKhamNavigation.Sdt</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-bold">Bác sĩ:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Model.PhieuKhamBenh.BacsiNavigation.MaBsNavigation.HoTenNv</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thông tin khám bệnh -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-info text-white">
+            <h6 class="m-0 font-weight-bold">Thông tin khám bệnh</h6>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label class="font-weight-bold">Triệu chứng:</label>
+                <div class="border p-3 rounded bg-light">
+                    @Model.PhieuKhamBenh.TrieuChung
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danh sách thủ tục -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-warning text-dark">
+            <h6 class="m-0 font-weight-bold">Danh sách thủ tục chỉ định</h6>
+            <a asp-page="/BacSi/ThemThuTuc" asp-route-maPK="@Model.PhieuKhamBenh.MaPk"
+               class="btn btn-sm btn-primary">
+                <i class="fas fa-plus"></i> Thêm thủ tục
+            </a>
+        </div>
+        <div class="card-body">
+            @if (Model.DanhSachThuTuc.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="5%">STT</th>
+                                <th width="30%">Tên thủ tục</th>
+                                <th width="15%">Đơn giá</th>
+                                <th width="20%">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var (index, tt) in Model.DanhSachThuTuc.Select((value, i) => (i + 1, value)))
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@tt.MaTtNavigation.TenTuc</td>
+                                    <td class="text-right">@tt.SoTien VNĐ</td>
+                                    <td>
+                                        <span class="badge text-dark @(tt.TtthanhToan == "Đã thanh toán" ? "badge-success" : "badge-warning")">
+                                            @tt.TtthanhToan
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Chưa có thủ tục nào được chỉ định
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            @if (Model.ToaThuoc != null)
+            {
+                <div class=" text-dark text-center">Mã toa: @Model.ToaThuoc.MaToaThuoc</div>
+                <div class="mb-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label font-weight-bold">Ngày kê đơn:</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-plaintext">@Model.ToaThuoc.NgayKe</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label font-weight-bold">Bác sĩ kê đơn:</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-plaintext">@Model.PhieuKhamBenh.BacsiNavigation.MaBsNavigation.HoTenNv</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="5%">STT</th>
+                                <th width="30%">Tên thuốc</th>
+                                <th width="15%">Đơn vị</th>
+                                <th width="15%">Số lượng</th>
+                                <th width="35">Liều dùng/Cách dùng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var (index, thuoc) in Model.DanhSachThuoc.Select((value, i) => (i + 1, value)))
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@thuoc.MaThuocNavigation.TenThuoc</td>
+                                    <td>@thuoc.MaThuocNavigation.DonVi</td>
+                                    <td class="text-right">@thuoc.SoLuong</td>
+                                    <td>@thuoc.LieuDung</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-right">
+                    <h5 class="font-weight-bold">Tổng cộng: @Model.ToaThuoc.TongTien VNĐ</h5>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Chưa có toa thuốc nào được kê
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Nút hành động -->
+    <div class="text-center mt-3">
+        <a asp-page="./Index" class="btn btn-secondary mr-2">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+        <a asp-page="./ThemToaThuoc" asp-route-maPk="@Model.PhieuKhamBenh.MaPk" class="btn btn-success">
+            <i class="fas fa-stethoscope"></i> Tiến hành khám
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .form-control-plaintext {
+            padding-top: calc(.375rem + 1px);
+            padding-bottom: calc(.375rem + 1px);
+            margin-bottom: 0;
+            line-height: 1.5;
+            background-color: transparent;
+            border: solid transparent;
+            border-width: 1px 0;
+        }
+    </style>
+}

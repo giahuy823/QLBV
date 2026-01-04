@@ -1,0 +1,86 @@
+﻿@page
+@model QLBV.Pages.BanThuoc.CapPhatThuocModel
+@{
+    ViewData["Title"] = "Cấp phát thuốc";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Cấp phát thuốc</h2>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-auto">
+            <input type="text" name="MaToaThuoc" value="@Model.MaToaThuoc" class="form-control" placeholder="Nhập mã toa thuốc..." />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.MaToaThuoc))
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã toa thuốc</th>
+                    <th>Ngày kê</th>
+                    <th>Mã thuốc</th>
+                    <th>Tên thuốc</th>
+                    <th>Số lượng</th>
+                    <th>Liều dùng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DanhSachThuoc.Any())
+                {
+                    string currentMaToa = null;
+                    foreach (var item in Model.DanhSachThuoc)
+                    {
+                        if (currentMaToa != item.MaToaThuoc)
+                        {
+                            if (currentMaToa != null)
+                            {
+                                <tr class="table-success fw-bold">
+                                    <td colspan="6" class="text-end">
+                                        Tổng tiền toa thuốc @currentMaToa:
+                                        @Model.DanhSachThuoc.First(x => x.MaToaThuoc == currentMaToa).TongTien?.ToString("N0") VNĐ
+                                    </td>
+                                </tr>
+                            }
+                            currentMaToa = item.MaToaThuoc;
+                        }
+                        <tr>
+                            <td>@item.MaToaThuoc</td>
+                            <td>@item.NgayKe</td>
+                            <td>@item.MaThuoc</td>
+                            <td>@item.TenThuoc</td>
+                            <td>@item.SoLuong</td>
+                            <td>@item.LieuDung</td>
+                        </tr>
+                    }
+                    <tr class="table-success fw-bold">
+                        <td colspan="6" class="text-end">
+                            Tổng tiền toa thuốc @currentMaToa:
+                            @Model.DanhSachThuoc.First(x => x.MaToaThuoc == currentMaToa).TongTien?.ToString("N0") VNĐ
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">Không tìm thấy toa thuốc nào.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @* @if (Model.DanhSachThuoc.Any() && !string.IsNullOrEmpty(Model.MaToaThuoc)) *@
+    @* { *@
+    @*     <div class="alert alert-success text-end fw-bold fs-5"> *@
+    @*         Tổng tiền toa thuốc: @Model.DanhSachThuoc[0].TongTien?.ToString("N0") VNĐ *@
+    @*     </div> *@
+    @* } *@
+
+</div>

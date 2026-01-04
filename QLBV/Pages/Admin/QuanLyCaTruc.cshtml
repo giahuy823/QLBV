@@ -1,0 +1,37 @@
+﻿@page
+@model QLBV.Pages.Admin.QuanLyCaTrucModel
+@{
+    ViewData["Title"] = "Quản lý ca trực";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách ca trực</h2>
+
+    <a asp-page="/Admin/ThemOrSuaCaTruc" class="btn btn-success mb-3">+ Thêm ca trực</a>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã ca</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Nhân viên trực</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ct in Model.DanhSachCaTruc)
+            {
+                <tr>
+                    <td>@ct.MaCt</td>
+                    <td>@ct.ThoiGianBt?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@ct.ThoiGianKt?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@(ct.NvtrucNavigation?.HoTenNv ?? "Chưa phân công")</td>
+                    <td>
+                        <a asp-page="/Admin/ThemOrSuaCaTruc" asp-route-id="@ct.MaCt" class="btn btn-sm btn-primary">Chi tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

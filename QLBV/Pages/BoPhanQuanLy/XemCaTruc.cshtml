@@ -1,0 +1,44 @@
+﻿@page
+@model QLBV.Pages.BoPhanQuanLy.XemCaTrucModel
+@{
+    ViewData["Title"] = "Xem danh sách ca trực";
+}
+
+<h2 class="text-xl font-semibold mb-4">Danh sách ca trực</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>STT</th>
+            <th>Mã NV</th>
+            <th>Tên nhân viên</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Thời gian kết thúc</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DanhSachCaTruc != null && Model.DanhSachCaTruc.Any())
+        {
+            int stt = 1;
+            foreach (var ct in Model.DanhSachCaTruc)
+            {
+                <tr class="table-primary">
+                    <td>@stt</td>
+                    <th>@ct.Nvtruc</th>
+                    <td>@ct.NvtrucNavigation?.HoTenNv</td>
+                    <td>@ct.ThoiGianBt</td>
+                    <td>@ct.ThoiGianKt</td>
+                 
+                </tr>
+                stt++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">Không có ca trực nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>

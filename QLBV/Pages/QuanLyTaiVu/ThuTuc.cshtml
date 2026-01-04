@@ -1,0 +1,57 @@
+﻿@page
+@model QLBV.Pages.QuanLyTaiVu.ThuTucModel
+@{
+    ViewData["Title"] = "Danh sách thủ tục";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+
+<h2>Danh sách thủ tục</h2>
+<div class="mb-3">
+    <a asp-page="/QuanLyTaiVu/ThemThuTuc" class="btn btn-success">
+        <i class="fas fa-plus"></i> Thêm mới
+    </a>
+</div>
+
+@if (Model.thuTucs == null || !Model.thuTucs.Any())
+{
+    <div class="alert alert-info">Không có thủ tục nào.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Mã thủ tục</th>
+                <th>Tên thủ tục</th>
+                <th>Đơn giá</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var thuTuc in Model.thuTucs)
+            {
+                <tr>
+                    <td>@thuTuc.MaThuTuc</td>
+                    <td>@thuTuc.TenTuc</td>
+                    <td>@thuTuc.DonGia</td>
+                    <td>
+                        <a asp-page="/QuanLyTaiVu/SuaThuTuc" asp-route-id="@thuTuc.MaThuTuc" class="btn btn-sm btn-primary me-2">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        @* <form method="post" asp-page-handler="Delete" asp-route-id="@thuTuc.MaThuTuc" style="display:inline;" *@
+                        @*       onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này không?');"> *@
+                        @*     <button type="submit" class="btn btn-sm btn-danger"> *@
+                        @*         <i class="fas fa-trash-alt"></i> Xóa *@
+                        @*     </button> *@
+                        @* </form> *@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

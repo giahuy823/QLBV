@@ -1,0 +1,27 @@
+﻿@page
+@model QLBV.Pages.BacSi.ThemThuTucModel
+@{
+    ViewData["Title"] = "Thêm thủ tục khám";
+}
+
+<h2 class="mt-3">Thêm thủ tục vào phiếu khám</h2>
+
+<form method="post" class="mt-4">
+    <input type="hidden" asp-for="MaPK" />
+
+    <div class="mb-3">
+        <label asp-for="ChiTietPhieuKham.MaTt" class="form-label">Chọn thủ tục</label>
+        <select asp-for="ChiTietPhieuKham.MaTt" class="form-select" asp-items="Model.DanhSachThuTuc">
+            <option value="">-- Chọn thủ tục --</option>
+        </select>
+        <span asp-validation-for="ChiTietPhieuKham.MaTt" class="text-danger"></span>
+    </div>
+
+  
+    <button type="submit" class="btn btn-primary">Thêm thủ tục</button>
+    <a asp-page="/BacSi/PhieuKham" asp-route-id="@Model.MaPK" class="btn btn-secondary ms-2">Quay lại phiếu khám</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

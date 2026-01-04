@@ -1,0 +1,74 @@
+﻿@page
+@model QLBV.Pages.Admin.SuaNhanVienModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa nhân viên";
+}
+
+<h1>Chỉnh sửa nhân viên</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger">Mã nhân viên</div>
+    <input type="hidden" asp-for="NhanVien.MaNv" />
+
+    <!-- Các trường hiện tại -->
+    <div class="form-group">
+        <label asp-for="NhanVien.HoTenNv" class="control-label">Họ tên</label>
+        <input asp-for="NhanVien.HoTenNv" class="form-control" />
+        <span asp-validation-for="NhanVien.HoTenNv" class="text-danger"></span>
+    </div>
+
+    <!-- Thêm các trường mới -->
+    <div class="form-group">
+        <label asp-for="NhanVien.DiaChi" class="control-label">Địa chỉ</label>
+        <input asp-for="NhanVien.DiaChi" class="form-control" />
+        <span asp-validation-for="NhanVien.DiaChi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NhanVien.Sdt" class="control-label">Số điện thoại</label>
+        <input asp-for="NhanVien.Sdt" class="form-control" type="tel" />
+        <span asp-validation-for="NhanVien.Sdt" class="text-danger"></span>
+    </div>
+
+    @* <div class="form-group"> *@
+    @*     <label asp-for="NhanVien.LoaiNhanVien" class="control-label">Loại</label> *@
+    @*     <select asp-for="NhanVien.LoaiNhanVien" class="form-control"> *@
+    @*         <option value="Bác sĩ">Bác sĩ</option> *@
+    @*         <option value="Nhân viên">Nhân viên</option> *@
+    @*     </select> *@
+    @*     <span asp-validation-for="NhanVien.LoaiNhanVien" class="text-danger"></span> *@
+    @* </div> *@
+
+    <!-- Các trường hiện có khác -->
+    <div class="form-group">
+        <label asp-for="NhanVien.NgaySinh" class="control-label">Ngày sinh</label>
+        <input asp-for="NhanVien.NgaySinh" type="date" class="form-control" />
+        <span asp-validation-for="NhanVien.NgaySinh" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NhanVien.GioiTinh" class="control-label">Giới tính</label>
+        <select asp-for="NhanVien.GioiTinh" class="form-control">
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NhanVien.MaPb" class="control-label">Mã phòng ban</label>
+        <select asp-for="NhanVien.MaPb" asp-items="Model.PhongBanList" class="form-control"></select>
+        <span asp-validation-for="NhanVien.MaPb" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Lưu" class="btn btn-primary" />
+        <a asp-page="./QuanLyNhanVien" class="btn btn-secondary">Hủy</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,51 @@
+﻿@page
+@model QLBV.Pages.ChuyenMon.DanhSachPhieuKhamModel
+@{
+    ViewData["Title"] = "Danh sách phiếu khám";
+}
+
+<h2 class="mb-4">Danh sách phiếu khám</h2>
+
+<form method="get" class="form-inline mb-4">
+    <div class="form-group mr-2">
+        <label for="mabs" class="mr-2">Mã Bác Sĩ:</label>
+        <input type="text" name="mabs" value="@Model.mabs" class="form-control" placeholder="Nhập mã bác sĩ" />
+    </div>
+    <button type="submit" class="btn btn-primary">Lọc</button>
+    <a asp-page="./DanhSachPhieuKham" class="btn btn-secondary ml-2">Tất cả</a>
+</form>
+
+@if (Model.DanhSachPhieuKham.Any())
+{
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Mã Phiếu</th>
+                <th>Người Khám</th>
+                <th>Bác Sĩ</th>
+                <th>Ngày Khám</th>
+                <th>Triệu Chứng</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DanhSachPhieuKham)
+            {
+                <tr>
+                    <td>@item.MaPk</td>
+                    <td>@item.NguoiKhamNavigation?.HoTenBn</td>
+                    <td>@item.BacsiNavigation?.MaBs</td>
+                    <td>@item.NgayKham</td>
+                    <td>@item.TrieuChung</td>
+                    <td>
+                        <a asp-page="/ChuyenMon/ChiTietPhieuKham" asp-route-id="@item.MaPk" class="btn btn-outline-secondary">Chi tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">Không có phiếu khám nào.</div>
+}

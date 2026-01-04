@@ -1,0 +1,34 @@
+﻿@page
+@model QLBV.Pages.QuanLyTaiVu.ThemThuTucModel
+@{
+    ViewData["Title"] = "Thêm thủ tục mới";
+}
+
+<h2>Thêm thủ tục mới</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="ThuTuc.MaThuTuc" class="form-label"></label>
+        <input asp-for="ThuTuc.MaThuTuc" class="form-control" />
+        <span asp-validation-for="ThuTuc.MaThuTuc" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ThuTuc.TenTuc" class="form-label"></label>
+        <input asp-for="ThuTuc.TenTuc" class="form-control" />
+        <span asp-validation-for="ThuTuc.TenTuc" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ThuTuc.DonGia" class="form-label"></label>
+        <input asp-for="ThuTuc.DonGia" class="form-control" type="number" step="1000" />
+        <span asp-validation-for="ThuTuc.DonGia" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm</button>
+    <a asp-page="ThuTuc" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,141 @@
+﻿@page
+@model QLBV.Pages.NhanVien.ThongTinModel
+@{
+    ViewData["Title"] = "Thông tin nhân viên";
+}
+
+@section Styles {
+    <style>
+        .profile-card {
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border: none;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+            .profile-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .profile-header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            border: 4px solid white;
+            border-radius: 50%;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .info-table {
+            width: 100%;
+        }
+
+            .info-table th {
+                width: 30%;
+                padding: 1rem;
+                background-color: #f8f9fa;
+                border-right: 1px solid #dee2e6;
+            }
+
+            .info-table td {
+                padding: 1rem;
+            }
+
+        .info-icon {
+            color: #3498db;
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+    </style>
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            @if (Model.NhanVienBacSi != null)
+            {
+                <div class="card profile-card mb-5">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            @Model.NhanVienBacSi.MaBsNavigation.HoTenNv?.Substring(0, 1)
+                        </div>
+                        <h3>@Model.NhanVienBacSi.MaBsNavigation.HoTenNv</h3>
+                        <p class="mb-0">@Model.NhanVienBacSi.TrinhDo</p>
+                    </div>
+
+                    <div class="card-body">
+                        <table class="info-table">
+                            <tr>
+                                <th><i class="fas fa-id-card info-icon"></i> Mã nhân viên</th>
+                                <td>@Model.NhanVienBacSi.MaBs</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-phone info-icon"></i> Số điện thoại</th>
+                                <td>@Model.NhanVienBacSi.MaBsNavigation.Sdt</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-building info-icon"></i> Phòng ban</th>
+                                <td>@Model.NhanVienBacSi.MaBsNavigation.MaPbNavigation?.TenPhongBan</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-graduation-cap info-icon"></i> Trình độ</th>
+                                <td>@Model.NhanVienBacSi.TrinhDo</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            }
+            else if (Model.NhanVienKhac != null)
+            {
+             
+                <div class="card profile-card mb-5">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            @Model.NhanVienKhac.HoTenNv?.Substring(0, 1)
+                        </div>
+                        <h3>@Model.NhanVienKhac.HoTenNv</h3>
+                        
+                    </div>
+                    <div class="card-body">
+                        <table class="info-table">
+                            <tr>
+                                <th><i class="fas fa-id-card info-icon"></i> Mã nhân viên</th>
+                                <td>@Model.NhanVienKhac.MaNv</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-phone info-icon"></i> Số điện thoại</th>
+                                <td>@Model.NhanVienKhac.Sdt</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fas fa-building info-icon"></i> Phòng ban</th>
+                                <td>@Model.NhanVienKhac.MaPbNavigation?.TenPhongBan</td>
+                            </tr>
+                         
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Không tìm thấy thông tin nhân viên
+                </div>
+            }
+        </div>
+    </div>
+</div>

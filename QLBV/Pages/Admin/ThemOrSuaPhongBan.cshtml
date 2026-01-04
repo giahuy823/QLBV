@@ -1,0 +1,51 @@
+﻿@page "{id?}"
+@model QLBV.Pages.Admin.ThemOrSuaPhongBanModel
+@{
+    ViewData["Title"] = Model.IsEdit ? "Cập nhật phòng ban" : "Thêm phòng ban";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="PhongBan.MaPb" class="form-label">Mã phòng ban</label>
+            <input asp-for="PhongBan.MaPb" class="form-control" readonly="@Model.IsEdit" />
+            <span asp-validation-for="PhongBan.MaPb" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhongBan.TenPhongBan" class="form-label">Tên phòng ban</label>
+            <input asp-for="PhongBan.TenPhongBan" class="form-control" />
+            <span asp-validation-for="PhongBan.TenPhongBan" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhongBan.MoTa" class="form-label">Mô tả</label>
+            <textarea asp-for="PhongBan.MoTa" class="form-control"></textarea>
+            <span asp-validation-for="PhongBan.MoTa" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhongBan.MaBp" class="form-label">Mã bộ phận</label>
+            <select asp-for="PhongBan.MaBp" asp-items="Model.DanhSachBoPhan" class="form-select">
+                <option value="">-- Chọn bộ phận --</option>
+            </select>
+            <span asp-validation-for="PhongBan.MaBp" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a asp-page="/Admin/QuanLyPhongBan" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

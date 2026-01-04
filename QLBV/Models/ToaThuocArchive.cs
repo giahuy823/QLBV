@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace QLBV.Models;
+
+[Keyless]
+[Table("ToaThuoc_Archive")]
+public partial class ToaThuocArchive
+{
+    [StringLength(50)]
+    
+    public string? MaToaThuoc { get; set; }
+
+    [StringLength(50)]
+    
+    public string? MaBacSi { get; set; }
+
+    [StringLength(50)]
+    public string? MaPk { get; set; }
+    public DateOnly? NgayKe { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal? TongTien { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? ArchiveDate { get; set; }
+
+    [StringLength(10)]
+    
+    public string? ActionType { get; set; }
+}
